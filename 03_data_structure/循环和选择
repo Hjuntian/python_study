@@ -1,0 +1,337 @@
+# Python 控制流程语句完整笔记（循环 / 选择 / 跳转）
+
+> 本文为**单一 Markdown 文件**，系统整理 Python 的控制流程语句。
+> 覆盖：选择语句、循环语句、跳转控制、推导式、异常控制、常见陷阱。
+> 适合：初学者系统掌握语法 → 进阶复习与代码规范查阅。
+
+---
+
+## 一、控制流程概览
+
+Python 程序默认**自上而下顺序执行**，通过控制流程语句改变执行顺序。
+
+主要分为：
+
+* 选择（条件判断）
+* 循环（重复执行）
+* 跳转与控制（中断 / 跳过 / 占位）
+* 推导式（语法级循环）
+* 异常控制（非正常流程）
+
+---
+
+## 二、选择语句（if / elif / else）
+
+### 1. 基本结构
+
+```python
+if condition:
+    statement
+elif other_condition:
+    statement
+else:
+    statement
+```
+
+### 2. 条件表达式规则
+
+* 条件结果为布尔值
+* Python 中以下视为 False：
+
+  * False
+  * None
+  * 0 / 0.0
+  * 空序列（""、[]、()）
+  * 空容器（{}、set()）
+
+```python
+if []:
+    print("不会执行")
+```
+
+### 3. 多条件判断
+
+```python
+if x > 0 and x < 10:
+    pass
+
+if x == 1 or x == 2:
+    pass
+
+if not x:
+    pass
+```
+
+### 4. 嵌套 if
+
+```python
+if x > 0:
+    if x % 2 == 0:
+        print("正偶数")
+```
+
+### 5. 三元表达式（条件表达式）
+
+```python
+result = "yes" if x > 0 else "no"
+```
+
+### 6. 注意事项
+
+* 使用 **缩进** 而非花括号
+* 不推荐过深嵌套（>3 层）
+* 条件判断优先可读性
+
+---
+
+## 三、循环语句（for）
+
+### 1. for 的本质
+
+Python 的 `for` 是 **遍历可迭代对象**，而非传统计数循环。
+
+```python
+for item in iterable:
+    statement
+```
+
+### 2. 常见可迭代对象
+
+* list / tuple
+* str
+* dict（默认遍历 key）
+* set
+* range
+
+```python
+for i in range(5):
+    print(i)
+```
+
+### 3. 遍历字典
+
+```python
+for key in d:
+    pass
+
+for value in d.values():
+    pass
+
+for k, v in d.items():
+    pass
+```
+
+### 4. enumerate（索引 + 值）
+
+```python
+for index, value in enumerate(['a', 'b', 'c']):
+    print(index, value)
+```
+
+### 5. for-else 结构
+
+```python
+for i in range(3):
+    if i == 5:
+        break
+else:
+    print("循环未被 break")
+```
+
+### 6. 注意事项
+
+* 修改遍历中的列表需谨慎
+* 大数据量优先使用生成器
+
+---
+
+## 四、循环语句（while）
+
+### 1. 基本结构
+
+```python
+while condition:
+    statement
+```
+
+### 2. 示例
+
+```python
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+```
+
+### 3. while-else
+
+```python
+while x > 0:
+    x -= 1
+else:
+    print("正常结束")
+```
+
+### 4. 注意事项
+
+* 必须有 **终止条件**
+* 防止死循环
+
+---
+
+## 五、循环控制语句（break / continue / pass）
+
+### 1. break（终止循环）
+
+```python
+for i in range(10):
+    if i == 5:
+        break
+```
+
+### 2. continue（跳过本次）
+
+```python
+for i in range(5):
+    if i == 2:
+        continue
+    print(i)
+```
+
+### 3. pass（占位）
+
+```python
+if x > 0:
+    pass
+```
+
+### 4. 对比
+
+| 语句       | 作用     |
+| -------- | ------ |
+| break    | 结束整个循环 |
+| continue | 跳过当前轮  |
+| pass     | 什么都不做  |
+
+---
+
+## 六、推导式（Comprehension）
+
+### 1. 列表推导式
+
+```python
+squares = [x * x for x in range(5)]
+```
+
+### 2. 带条件
+
+```python
+evens = [x for x in range(10) if x % 2 == 0]
+```
+
+### 3. 字典推导式
+
+```python
+d = {x: x * x for x in range(3)}
+```
+
+### 4. 集合推导式
+
+```python
+s = {x for x in range(5)}
+```
+
+### 5. 生成器表达式
+
+```python
+g = (x * x for x in range(5))
+```
+
+### 6. 注意事项
+
+* 推导式应简洁
+* 复杂逻辑不建议写在一行
+
+---
+
+## 七、异常控制（try / except / else / finally）
+
+### 1. 基本结构
+
+```python
+try:
+    risky_code
+except ValueError:
+    handle_error
+else:
+    no_error
+finally:
+    always_execute
+```
+
+### 2. 捕获多个异常
+
+```python
+except (TypeError, ValueError):
+    pass
+```
+
+### 3. 自定义异常抛出
+
+```python
+if x < 0:
+    raise ValueError("x 不能小于 0")
+```
+
+### 4. 注意事项
+
+* 不要滥用 except
+* 精确捕获异常类型
+
+---
+
+## 八、with 语句（上下文管理）
+
+### 1. 作用
+
+* 自动资源管理
+
+```python
+with open("a.txt", "r") as f:
+    data = f.read()
+```
+
+### 2. 等价形式
+
+```python
+f = open("a.txt")
+try:
+    data = f.read()
+finally:
+    f.close()
+```
+
+---
+
+## 九、常见控制流程陷阱
+
+1. 缩进错误导致逻辑错误
+2. while 忘记更新条件
+3. for 中修改原列表
+4. except 捕获所有异常
+5. 推导式过度复杂
+
+---
+
+## 十、总结速记
+
+* if：条件判断
+* for：遍历可迭代对象
+* while：条件循环
+* break / continue：流程控制
+* 推导式：简洁循环
+* try：异常流程控制
+
+---
+
+**本文件可直接整体复制，作为 Python 控制流程语句长期速查与复习笔记使用。**
