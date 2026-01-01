@@ -1,134 +1,350 @@
-# Python 数据结构笔记
+# Python 数据结构完整笔记
 
-Python 常用的内置数据结构包括：
-list（列表）、tuple（元组）、dict（字典）、set（集合）
+本文档为**单一 Markdown 文件**，可直接整体复制使用，适合初学到进阶复习，不做章节分割文件，不插入无意义分隔符。
 
 ---
 
-## 一、list（列表）
+## 一、数据结构概述
 
-### 1. 定义
-列表是有序、可变的数据结构，用于存储多个元素。
+数据结构用于**组织、存储和管理数据**，以便高效访问与修改。
+
+Python 内置的核心数据结构包括：
+
+* 数值类型（int, float, bool）
+* 字符串（str）
+* 列表（list）
+* 元组（tuple）
+* 集合（set, frozenset）
+* 字典（dict）
+* 其他：NoneType、bytes、bytearray
+
+---
+
+## 二、数值类型
+
+### 1. int（整数）
 
 ```python
-nums = [1, 2, 3, 4]
-names = ["Tom", "Jack", "Alice"]
-mixed = [1, "hello", True]
-2. 常用操作
-python
-复制代码
-nums.append(5)      # 添加元素
-nums.insert(1, 100) # 指定位置插入
-nums.remove(3)      # 删除指定值
-nums.pop()          # 删除末尾元素
-访问元素：
+x = 10
+y = -5
+```
 
-python
-复制代码
-print(nums[0])
-print(nums[-1])
-3. 遍历列表
-python
-复制代码
-for x in nums:
-    print(x)
-python
-复制代码
-for i, v in enumerate(nums):
-    print(i, v)
-4. 列表切片
-python
-复制代码
-nums = [0, 1, 2, 3, 4]
-print(nums[1:4])
-print(nums[::-1])
-二、tuple（元组）
-1. 定义
-元组是有序、不可变的数据结构。
+特点：
 
-python
-复制代码
-point = (10, 20)
-single = (1,)
-2. 特点
-元素不可修改
+* 任意精度（不溢出）
+* 支持常见算术运算
 
-访问速度快
+```python
+x + y
+x * 3
+x // 2
+x ** 2
+```
 
-常用于表示固定结构的数据
+---
 
-python
-复制代码
-x, y = point
-print(x, y)
-三、dict（字典）
-1. 定义
-字典是由键值对组成的数据结构。
+### 2. float（浮点数）
 
-python
-复制代码
-student = {
-    "name": "Tom",
-    "age": 18,
-    "score": 90
-}
-2. 访问与修改
-python
-复制代码
-print(student["name"])
+```python
+a = 3.14
+b = 1.2e3
+```
 
-student["age"] = 19
-student["gender"] = "male"
-3. 常用方法
-python
-复制代码
-student.get("score")
-student.keys()
-student.values()
-student.items()
-4. 遍历字典
-python
-复制代码
-for key in student:
-    print(key, student[key])
-python
-复制代码
-for k, v in student.items():
+注意精度问题：
+
+```python
+0.1 + 0.2  # 0.30000000000000004
+```
+
+---
+
+### 3. bool（布尔值）
+
+```python
+True
+False
+```
+
+逻辑运算：
+
+```python
+True and False
+True or False
+not True
+```
+
+---
+
+## 三、字符串（str）
+
+### 1. 定义
+
+```python
+s1 = 'hello'
+s2 = "world"
+s3 = '''多行
+字符串'''
+```
+
+---
+
+### 2. 索引与切片
+
+```python
+s = "python"
+s[0]      # 'p'
+s[-1]     # 'n'
+s[1:4]    # 'yth'
+s[::-1]   # 反转
+```
+
+字符串**不可变**。
+
+---
+
+### 3. 常用方法
+
+```python
+s.upper()
+s.lower()
+s.strip()
+s.replace('py', 'Py')
+s.split('t')
+```
+
+---
+
+## 四、列表（list）
+
+### 1. 定义
+
+```python
+lst = [1, 2, 3, 'a', True]
+```
+
+列表是**有序、可变**的。
+
+---
+
+### 2. 访问与修改
+
+```python
+lst[0]
+lst[1] = 100
+```
+
+---
+
+### 3. 常用方法
+
+```python
+lst.append(4)
+lst.extend([5, 6])
+lst.insert(1, 'x')
+lst.remove(2)
+lst.pop()
+lst.clear()
+```
+
+---
+
+### 4. 切片
+
+```python
+lst[1:4]
+lst[::-1]
+```
+
+---
+
+### 5. 列表推导式
+
+```python
+[x * 2 for x in range(5)]
+[x for x in range(10) if x % 2 == 0]
+```
+
+---
+
+## 五、元组（tuple）
+
+### 1. 定义
+
+```python
+t = (1, 2, 3)
+```
+
+单元素元组：
+
+```python
+t = (1,)
+```
+
+---
+
+### 2. 特点
+
+* 有序
+* 不可变
+* 可作为字典的 key
+
+---
+
+### 3. 解包
+
+```python
+a, b, c = (1, 2, 3)
+```
+
+---
+
+## 六、集合（set）
+
+### 1. 定义
+
+```python
+s = {1, 2, 3}
+```
+
+空集合：
+
+```python
+s = set()
+```
+
+---
+
+### 2. 特点
+
+* 无序
+* 元素唯一
+* 可变（frozenset 不可变）
+
+---
+
+### 3. 常用操作
+
+```python
+s.add(4)
+s.remove(2)
+```
+
+集合运算：
+
+```python
+a | b   # 并集
+a & b   # 交集
+a - b   # 差集
+a ^ b   # 对称差集
+```
+
+---
+
+## 七、字典（dict）
+
+### 1. 定义
+
+```python
+d = {'name': 'Tom', 'age': 18}
+```
+
+---
+
+### 2. 访问与修改
+
+```python
+d['name']
+d['age'] = 20
+d['gender'] = 'male'
+```
+
+---
+
+### 3. 常用方法
+
+```python
+d.keys()
+d.values()
+d.items()
+d.get('score', 0)
+d.pop('age')
+```
+
+---
+
+### 4. 遍历
+
+```python
+for k in d:
+    print(k, d[k])
+
+for k, v in d.items():
     print(k, v)
-四、set（集合）
-1. 定义
-集合是无序、不重复的元素集合。
+```
 
-python
-复制代码
-nums = {1, 2, 3, 3, 2}
-print(nums)
-2. 常用操作
-python
-复制代码
-nums.add(4)
-nums.remove(2)
-3. 集合运算
-python
-复制代码
-a = {1, 2, 3}
-b = {3, 4, 5}
+---
 
-print(a & b)
-print(a | b)
-print(a - b)
-五、数据结构对比
-类型	有序	可变	是否重复
-list	是	是	是
-tuple	是	否	是
-dict	是（3.7+）	是	key 不重复
-set	否	是	否
+### 5. 字典推导式
 
-六、使用场景总结
-list：顺序存储、频繁修改
+```python
+{k: k*k for k in range(5)}
+```
 
-tuple：固定结构、函数返回值
+---
 
-dict：映射关系、对象属性
+## 八、None 类型
 
-set：去重、集合运算
+```python
+x = None
+```
+
+用于表示“空值 / 未定义”。
+
+---
+
+## 九、可变与不可变总结
+
+| 类型    | 是否可变 |
+| ----- | ---- |
+| int   | 不可变  |
+| float | 不可变  |
+| str   | 不可变  |
+| tuple | 不可变  |
+| list  | 可变   |
+| set   | 可变   |
+| dict  | 可变   |
+
+---
+
+## 十、数据结构选择建议
+
+* 顺序数据、频繁修改：list
+* 不可修改、做 key：tuple
+* 去重、集合运算：set
+* 键值映射：dict
+* 文本处理：str
+
+---
+
+## 十一、补充：浅拷贝与深拷贝
+
+```python
+import copy
+
+a = [1, [2, 3]]
+b = copy.copy(a)
+c = copy.deepcopy(a)
+```
+
+---
+
+## 十二、常见面试考点
+
+* list 与 tuple 区别
+* dict 为什么快
+* set 去重原理
+* 可变对象作为函数参数
+
+---
+
+完
